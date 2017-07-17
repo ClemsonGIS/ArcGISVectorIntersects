@@ -4,7 +4,7 @@
 geodatabasePrefix = Routes4_Pline
 pointsFC          = Station_Points
 
-scriptName        = intersect_stations.py
+scriptName        = intersect.py
 
 #################################################################################################################
 # 
@@ -20,7 +20,7 @@ universe                = vanilla
 
 # The "executable" parameter specifys where the execution file resides. In this case we are running the python
 # Interpreter "python.exe".
-executable              = C:\Python27\ArcGIS10.4\python.exe
+executable              = C:\Python27\ArcGIS10.5\python.exe
 
 # The "transfer_executable" parameter allows you to transfer the program you want to run to the Condor node where 
 # the job will run. For this process we specify "FALSE" because we expect the "python.exe" file to reside on every 
@@ -32,12 +32,12 @@ transfer_executable     = FALSE
 # installed to be eligbible for selection.
 requirements            = Arch=="X86_64" && OpSys=="WINDOWS" && HAS_ARCGIS
 dirname = $Fn(filename)
-polylineFC = $SUBSTR(dirname,0,-4)
+routesFC = $SUBSTR(dirname,0,-4)
 
 # The "arguments" parameter says what arguments you want to pass to the executable file. 
 # since the executable file is the python interpreter we need to pass, as one of the arguments, the python script
 # we want to run. The arguments after the python script name are arguments for the python script itself.
-arguments               = $(scriptName) $(polylineFC) $(pointsFC)
+arguments               = $(scriptName) $(routesFC) $(pointsFC)
 
 # The "transfer_input_files" parameter allows you to specify other addition files to be transferred to the node that 
 # might be needed to run the job successfully.
@@ -62,5 +62,5 @@ error  = logs/error-$(filename).txt
 log    = logs/log.txt
 
 # The Queue command initiates the submission to the remote nodes. In this case we're going
-# to submit a Condor job for each filename that matches the pattern $(polylineFCPrefix)*.gdb.zip
+# to submit a Condor job for each filename that matches the pattern $(routesFCPrefix)*.gdb.zip
 queue filename matching files $(geodatabasePrefix)*.gdb.zip
